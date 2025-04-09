@@ -11,8 +11,9 @@ function App() {
 
 {/* <Login /> */}
 
-{/* <AdminDashboard /> */}
+<AdminDashboard />
 {/* <EmployeeDashboard /> */}
+
 </>
   )
 }
