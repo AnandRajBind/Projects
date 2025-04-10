@@ -13,7 +13,7 @@ html,body{
 } */
  
  *{
-  color: aliceblue;
+  color: #fff;
  }
 body{
   background-color: #111;
@@ -21,4 +21,6 @@ body{
 
 #tasklist::-webkit-scrollbar{
   display: none;
+  height: 5px;
+  background-color: transparent;
 }
