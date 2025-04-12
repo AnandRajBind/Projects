@@ -24,3 +24,9 @@ body{
   height: 5px;
   background-color: transparent;
 }
+
+#allTask::-webkit-scrollbar{
+  display: none;
+  height: 5px;
+  background-color: transparent;
+}
