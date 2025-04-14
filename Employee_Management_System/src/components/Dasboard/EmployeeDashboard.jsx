@@ -3,15 +3,15 @@ import Header from '../others/Header'
 import TaskListNumbers from '../others/TaskListNumbers'
 import TaskList from '../TaskList/TaskList'
 
-function EmployeeDashboard() {
+function EmployeeDashboard({ data }) {
     return (
         <div className='p-20 bg-[#1C1C1C] h-screen'>
-
-            <Header />
-            <TaskListNumbers />
-            <TaskList />
+            {/* <h1>{data.id}</h1> */}
+            <Header data={data}/>
+            <TaskListNumbers data={data}/>
+            <TaskList data={data}/>
         </div>
     )
 }
 
-export default EmployeeDashboard
+export default EmployeeDashboard;
