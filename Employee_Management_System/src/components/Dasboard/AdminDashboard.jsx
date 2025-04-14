@@ -5,10 +5,14 @@ import AllTask from '../others/AllTask';
 
 function AdminDashboard() {
   return (
-    <div className='h-screen w-full p-10'>
-      < Header />
-      <CreateTask />
-      <AllTask /> 
+    <div className='min-h-screen w-full bg-[#1C1C1C] p-20'>
+      <Header />
+      <div className='mt-10'>
+        <CreateTask />
+      </div>
+      <div className='mt-10'>
+        <AllTask />
+      </div>
     </div>
   )
 }
