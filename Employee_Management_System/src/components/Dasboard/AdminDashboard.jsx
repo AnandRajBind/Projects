@@ -3,17 +3,13 @@ import Header from '../others/Header'
 import CreateTask from '../others/CreateTask';
 import AllTask from '../others/AllTask';
 
-function AdminDashboard() {
+function AdminDashboard(props) {
   return (
-    <div className='min-h-screen w-full bg-[#1C1C1C] p-20'>
-      <Header />
-      <div className='mt-10'>
-        <CreateTask />
-      </div>
-      <div className='mt-10'>
-        <AllTask />
-      </div>
-    </div>
+    <div className='h-screen w-full p-7'>
+      <Header changeUser={props.changeUser}/>
+         <CreateTask />
+          <AllTask />
+     </div>
   )
 }
 export default AdminDashboard;
