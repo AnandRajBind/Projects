@@ -1,6 +1,11 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthProvider';
 
 function CreateTask() {
+
+const [userData, setUserData] = useContext(AuthContext);
+
 
   const [taskTitle, setTaskTitle] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
@@ -9,23 +14,34 @@ function CreateTask() {
   const [taskCategory, setTaskCategory] = useState('')
 
 
-  const [task, setTask]=useState({});
+  const [newTask, setNewTask] = useState({});
   const submitHandler = (e) => {
     e.preventDefault();
     // console.log(taskTitle, taskDescription, taskDate, assignTo, taskCategory);
-  
-  setTaskDate('')
-  setTaskDescription('')  
-  setTaskTitle('')
-  setAssignTo('')
-  setTaskCategory('')
 
-  setTask({taskTitle,taskDescription,taskDate,taskCategory, active:false, newTask:true, failed:true, completed:false});
-  const data=localStorage.getItem('employees');
-  console.log(data);
 
+
+    setNewTask({ taskTitle, taskDescription, taskDate, taskCategory, active: false, newTask: true, failed: false, completed: false });
+    const data = userData
+
+
+
+    data.forEach(function (elem) {
+      if (assignTo == elem.firstName) {
+        elem.tasks.push(newTask);
+        elem.taskCounts.newTask = elem.taskCounts.newTask + 1
+      }
+    })
+setUserData(data);
+console.log(data);
+
+    setTaskDate('')
+    setTaskDescription('')
+    setTaskTitle('')
+    setAssignTo('')
+    setTaskCategory('')
   }
- 
+
 
 
   return (
@@ -43,42 +59,42 @@ function CreateTask() {
               Task Title
             </h3>
             <input
-            value={taskTitle} 
-            onChange={(e) => setTaskTitle(e.target.value)}
-            
-            className='text-sm  py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='Enter your task' />
+              value={taskTitle}
+              onChange={(e) => setTaskTitle(e.target.value)}
+
+              className='text-sm  py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='Enter your task' />
           </div>
           <div>
             <h3 className='text-sm text-gray-300 mb-0.5'>Date</h3>
             <input
-              value={taskDate} 
+              value={taskDate}
               onChange={(e) => setTaskDate(e.target.value)}
-            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="date" />
+              className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="date" />
           </div>
           <div>
             <h3 className='text-sm text-gray-300 mb-0.5' >Assign to</h3>
             <input
-              value={assignTo} 
+              value={assignTo}
               onChange={(e) => setAssignTo(e.target.value)}
 
-            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='Employee Name' />
+              className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='Employee Name' />
           </div>
           <div>
             <h3 className='text-sm text-gray-300 mb-0.5'>Category</h3>
             <input
-              value={taskCategory} 
+              value={taskCategory}
               onChange={(e) => setTaskCategory(e.target.value)}
-            
-            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='design, dev,etc' />
+
+              className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='design, dev,etc' />
           </div>
         </div>
 
         <div className='w-2/5  flex flex-col items-start'>
           <h3 className='text-sm text-gray-300 mb-0.5'>Description</h3>
-          <textarea 
-            value={taskDescription} 
+          <textarea
+            value={taskDescription}
             onChange={(e) => setTaskDescription(e.target.value)}
-          className='w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border-[1px] border-gray-400' name="" id="" cols="30" rows="10"></textarea>
+            className='w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border-[1px] border-gray-400' name="" id="" cols="30" rows="10"></textarea>
           <button className='bg-emerald-500 py-3 hover:bg-emerald-600 px-5 rounded text-sm mt-4 w-full'>Create Task</button>
         </div>
 
