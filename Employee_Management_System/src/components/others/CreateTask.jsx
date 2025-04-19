@@ -1,106 +1,160 @@
 import React, { useState } from 'react'
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
+import { FiFileText, FiCalendar, FiUser, FiTag, FiEdit3, FiPlus } from 'react-icons/fi';
 
 function CreateTask() {
+  const [userData, setUserData] = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    taskTitle: '',
+    taskDescription: '',
+    taskDate: '',
+    assignTo: '',
+    taskCategory: ''
+  });
 
-const [userData, setUserData] = useContext(AuthContext);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-
-  const [taskTitle, setTaskTitle] = useState('')
-  const [taskDescription, setTaskDescription] = useState('')
-  const [taskDate, setTaskDate] = useState('')
-  const [assignTo, setAssignTo] = useState('')
-  const [taskCategory, setTaskCategory] = useState('')
-
-
-  const [newTask, setNewTask] = useState({});
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log(taskTitle, taskDescription, taskDate, assignTo, taskCategory);
+    const newTask = {
+      ...formData,
+      active: false,
+      newTask: true,
+      failed: false,
+      completed: false
+    };
 
-
-
-    setNewTask({ taskTitle, taskDescription, taskDate, taskCategory, active: false, newTask: true, failed: false, completed: false });
-    const data = userData
-
-
-
-    data.forEach(function (elem) {
-      if (assignTo == elem.firstName) {
-        elem.tasks.push(newTask);
-        elem.taskCounts.newTask = elem?.taskCounts?.newTask + 1
+    const updatedData = userData.map(elem => {
+      if (formData.assignTo === elem.firstName) {
+        return {
+          ...elem,
+          tasks: [...elem.tasks, newTask],
+          taskCounts: {
+            ...elem.taskCounts,
+            newTask: elem.taskCounts.newTask + 1
+          }
+        };
       }
-    })
-setUserData(data);
-console.log(data);
+      return elem;
+    });
 
-    setTaskDate('')
-    setTaskDescription('')
-    setTaskTitle('')
-    setAssignTo('')
-    setTaskCategory('')
-  }
-
-
+    setUserData(updatedData);
+    setFormData({
+      taskTitle: '',
+      taskDescription: '',
+      taskDate: '',
+      assignTo: '',
+      taskCategory: ''
+    });
+  };
 
   return (
-    <div className='p-5 bg-[#1c1c1c] mt-7 rounded'>
+    <div className='bg-gray-800 rounded-xl shadow-lg'>
+      <div className='p-6 border-b border-gray-700'>
+        <h2 className='text-xl font-semibold text-white flex items-center gap-2'>
+          <FiPlus className="text-emerald-500" />
+          Create New Task
+        </h2>
+      </div>
 
-      <form
-        onSubmit={(e) => {
-          submitHandler(e);
-        }}
-        className='flex  flex-wrap w-full items-start justify-between'>
-
-        <div className='w-1/2'>
-          <div >
-            <h3 className='text-sm text-gray-300 mb-0.5'>
-              Task Title
-            </h3>
+      <form onSubmit={submitHandler} className='p-6 space-y-4'>
+        <div>
+          <label className='text-sm text-gray-400 mb-1 block'>Task Title</label>
+          <div className='relative'>
+            <FiFileText className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
             <input
-              value={taskTitle}
-              onChange={(e) => setTaskTitle(e.target.value)}
-
-              className='text-sm  py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='Enter your task' />
-          </div>
-          <div>
-            <h3 className='text-sm text-gray-300 mb-0.5'>Date</h3>
-            <input
-              value={taskDate}
-              onChange={(e) => setTaskDate(e.target.value)}
-              className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="date" />
-          </div>
-          <div>
-            <h3 className='text-sm text-gray-300 mb-0.5' >Assign to</h3>
-            <input
-              value={assignTo}
-              onChange={(e) => setAssignTo(e.target.value)}
-
-              className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='Employee Name' />
-          </div>
-          <div>
-            <h3 className='text-sm text-gray-300 mb-0.5'>Category</h3>
-            <input
-              value={taskCategory}
-              onChange={(e) => setTaskCategory(e.target.value)}
-
-              className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent  border-[1px] border-gray-400 mb-4' type="text" placeholder='design, dev,etc' />
+              name="taskTitle"
+              value={formData.taskTitle}
+              onChange={handleChange}
+              className='w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none text-white'
+              type="text"
+              placeholder='Enter task title'
+              required
+            />
           </div>
         </div>
 
-        <div className='w-2/5  flex flex-col items-start'>
-          <h3 className='text-sm text-gray-300 mb-0.5'>Description</h3>
-          <textarea
-            value={taskDescription}
-            onChange={(e) => setTaskDescription(e.target.value)}
-            className='w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border-[1px] border-gray-400' name="" id="" cols="30" rows="10"></textarea>
-          <button className='bg-emerald-500 py-3 hover:bg-emerald-600 px-5 rounded text-sm mt-4 w-full'>Create Task</button>
+        <div>
+          <label className='text-sm text-gray-400 mb-1 block'>Due Date</label>
+          <div className='relative'>
+            <FiCalendar className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
+            <input
+              name="taskDate"
+              value={formData.taskDate}
+              onChange={handleChange}
+              className='w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none text-white'
+              type="date"
+              required
+            />
+          </div>
         </div>
 
+        <div>
+          <label className='text-sm text-gray-400 mb-1 block'>Assign To</label>
+          <div className='relative'>
+            <FiUser className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
+            <input
+              name="assignTo"
+              value={formData.assignTo}
+              onChange={handleChange}
+              className='w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none text-white'
+              type="text"
+              placeholder='Employee name'
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className='text-sm text-gray-400 mb-1 block'>Category</label>
+          <div className='relative'>
+            <FiTag className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
+            <input
+              name="taskCategory"
+              value={formData.taskCategory}
+              onChange={handleChange}
+              className='w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none text-white'
+              type="text"
+              placeholder='e.g. Design, Development'
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className='text-sm text-gray-400 mb-1 block'>Description</label>
+          <div className='relative'>
+            <FiEdit3 className='absolute left-3 top-3 text-gray-400' />
+            <textarea
+              name="taskDescription"
+              value={formData.taskDescription}
+              onChange={handleChange}
+              className='w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none text-white'
+              rows="4"
+              placeholder='Task description'
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <button 
+          type="submit"
+          className='w-full py-3 px-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium 
+            hover:from-emerald-600 hover:to-emerald-700 transition duration-200 transform hover:scale-[1.02] 
+            active:scale-[0.98] shadow-lg flex items-center justify-center gap-2'
+        >
+          <FiPlus className="w-5 h-5" />
+          Create Task
+        </button>
       </form>
     </div>
-  )
+  );
 }
 
-export default CreateTask
+export default CreateTask;

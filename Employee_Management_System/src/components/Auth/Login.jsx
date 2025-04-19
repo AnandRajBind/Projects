@@ -1,44 +1,62 @@
 import React, { useState } from 'react'
+import { FiUser, FiLock } from 'react-icons/fi'
 
 export default function Login({handleLogin}) {
-
     const [email, setEmail]=useState("");
     const [password, setPassword]=useState("");
-    // form ka ake default behavior hota hai jaise hi ham form ko submit karte hai to page reload ho jata hai.
-    // usko rokne ke liye ham preventDefault() function ka use karte hai.
 
     const submitHandler = (e) => {
         e.preventDefault();
-      
-        handleLogin(email, password); // yeh hamara function hai jo ki hamne props se pass kiya hai.
+        handleLogin(email, password);
         setEmail("");
         setPassword("");
     }
 
     return (
-        <div className='flex h-screen w-screen items-center  justify-center'>
-            <div className='border-2 rounded-xl border-emerald-600 p-20 '>
-                <form onSubmit={(e) => {
-                    submitHandler(e);
-                }} className=' flex flex-col item-center justify-center '>
-                    <input
-                        value={email} // yeh hamara state hai jo ki hamne useState se banaya hai.
-                    onChange={(e)=>{
-                        // console.log(e);// yeh pura event object hai jo ki hamko milta hai jab bhi ham koi input field me kuch type karte hai.
-                        //console.log(e.target);// e.target karne per hamko pura input field ka object milta hai.
-                        //console.log(e.target.value);// yeh hamko input field me type kiya hua value milta hai. 
-                        setEmail(e.target.value);// yeh hamara state hai jo ki hamne useState se banaya hai.
-                    }
-                }
-                    required className=' outline-none bg-transparent border-2 border-emerald-600  text-xl py-3  px-5 rounded-full placeholder:text-gray-400 ' type="email" placeholder='Enter Your Email' />
-                    <input
-                    value={password}
-                    onChange={(e)=>{
-                        setPassword(e.target.value)
-                    }}
-                    required className=' outline-none bg-transparent border-2 border-emerald-600  text-xl py-3  px-5 rounded-full mt-10 placeholder:text-gray-400 ' type="password" placeholder='Enter Your password' />
-                    <button className='mt-7 text-white border-none outline-none  bg-emerald-600 text-xl py-3 px-5 rounded-full placeholder:text-white'>Log In</button>
+        <div className='flex h-screen w-screen items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
+            <div className='w-full max-w-md p-8 space-y-8 bg-gray-800/50 backdrop-blur-lg rounded-2xl border border-gray-700 shadow-xl'>
+                <div className='text-center'>
+                    <h2 className='text-3xl font-bold text-emerald-500 mb-2'>Welcome Back!</h2>
+                    <p className='text-gray-400'>Please sign in to continue</p>
+                </div>
+                
+                <form onSubmit={submitHandler} className='space-y-6'>
+                    <div className='relative'>
+                        <FiUser className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
+                        <input
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required 
+                            className='w-full pl-10 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition duration-200'
+                            type="email"
+                            placeholder='Enter Your Email'
+                        />
+                    </div>
+                    
+                    <div className='relative'>
+                        <FiLock className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
+                        <input
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required 
+                            className='w-full pl-10 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition duration-200'
+                            type="password"
+                            placeholder='Enter Your Password'
+                        />
+                    </div>
+                    
+                    <button 
+                        className='w-full py-3 px-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-emerald-700 transition duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg'
+                    >
+                        Sign In
+                    </button>
                 </form>
+                
+                <p className='text-center text-gray-400 text-sm'>
+                    Demo Credentials:<br/>
+                    Admin: admin@gmail.com / admin123<br/>
+                    Employee: pragyesh@gmail.com / 123
+                </p>
             </div>
         </div>
     )
