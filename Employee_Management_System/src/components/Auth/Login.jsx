@@ -2,15 +2,10 @@ import React, { useState } from 'react'
 
 export default function Login({handleLogin}) {
 
-// console.log(props);
-// console.log(handleLogin);
-
     const [email, setEmail]=useState("");
     const [password, setPassword]=useState("");
     // form ka ake default behavior hota hai jaise hi ham form ko submit karte hai to page reload ho jata hai.
     // usko rokne ke liye ham preventDefault() function ka use karte hai.
-
-
 
     const submitHandler = (e) => {
         e.preventDefault();

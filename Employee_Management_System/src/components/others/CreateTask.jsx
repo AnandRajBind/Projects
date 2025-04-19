@@ -29,7 +29,7 @@ const [userData, setUserData] = useContext(AuthContext);
     data.forEach(function (elem) {
       if (assignTo == elem.firstName) {
         elem.tasks.push(newTask);
-        elem.taskCounts.newTask = elem.taskCounts.newTask + 1
+        elem.taskCounts.newTask = elem?.taskCounts?.newTask + 1
       }
     })
 setUserData(data);

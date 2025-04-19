@@ -12,9 +12,10 @@ function Header(props) {
     //         setUsername(data.firstName)
     //     }
     const logOutUser = () => {
-        localStorage.setItem('loggedInuser', " ")
+        // localStorage.setItem('loggedInuser', " ")
+        localStorage.clear()
         // window.location.reload()
-        props.changeUser(" ");        
+        props.changeUser("");        
     }
 
     return (

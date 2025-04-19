@@ -10,7 +10,7 @@ function TaskList({ data }) {
   return (
     <div id='tasklist' className='h-[55%] overflow-x-auto flex items-center justify-start gap-5 py-5 flex-nowrap w-full  mt-10'>
       {
-        data.tasks.map((elem, idx) => {
+       data?.tasks.map((elem, idx) => {
           if (elem.active) {
             return <AcceptedTask key={idx} data={elem}/>
           }
