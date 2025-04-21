@@ -9,6 +9,10 @@ function Header(props) {
         { id: 2, message: "Task completion pending" }
     ]);
 
+    // Get username from props
+    const username = props.data ? props.data.firstName : 'Admin';
+    const isAdmin = !props.data;
+
     useEffect(() => {
         const hour = new Date().getHours();
         if (hour < 12) setGreeting('Good Morning');
@@ -24,15 +28,19 @@ function Header(props) {
     return (
         <div className='flex items-center justify-between p-6 bg-gray-800 rounded-xl shadow-lg'>
             <div className='flex items-center gap-4'>
-                <div className='p-3 bg-emerald-500/10 rounded-xl'>
-                    <FiUser className='text-2xl text-emerald-500' />
+                <div className={`p-3 rounded-xl ${isAdmin ? 'bg-purple-500/10' : 'bg-emerald-500/10'}`}>
+                    <FiUser className={`text-2xl ${isAdmin ? 'text-purple-500' : 'text-emerald-500'}`} />
                 </div>
                 <div>
                     <h1 className='text-2xl font-medium text-gray-200'>
                         {greeting},
-                        <span className='font-bold text-emerald-500 ml-2'>Admin</span>
+                        <span className={`font-bold ml-2 ${isAdmin ? 'text-purple-500' : 'text-emerald-500'}`}>
+                            {username}
+                        </span>
                     </h1>
-                    <p className='text-gray-400 text-sm'>Welcome back to your dashboard</p>
+                    <p className='text-gray-400 text-sm'>
+                        {isAdmin ? 'Welcome to admin dashboard' : 'Welcome to your workspace'}
+                    </p>
                 </div>
             </div>
 
